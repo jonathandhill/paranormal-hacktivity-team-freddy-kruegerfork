@@ -2,7 +2,7 @@
 
 Welcome to the **Paranormal Hacktivity** project! This repository contains three spooky-themed games created during the School of Code's hackathon event, **Paranormal Hacktivity**, held on October 18, 2024.
 
-![Paranormal Hacktivity Banner]([your-image-url](https://snipboard.io/5RkUr6.jpg))
+![Paranormal Hacktivity Banner]([your-image-url](https://snipboard.io/5RkUr6.jpg)
 
 ## Deployed Link
 
