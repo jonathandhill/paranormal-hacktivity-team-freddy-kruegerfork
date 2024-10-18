@@ -1,50 +1,50 @@
-"use client"
-import Link from 'next/link';
-import './page.module.css';
-import Image from 'next/image';
+"use client";
+import './page.css';  // Ensure your CSS is linked
 import { useState } from 'react';
-
+import Link from 'next/link';
 
 export default function HigherOrLower() {
+  const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]; // 13 cards in a deck
+  const [currentCard, setCurrentCard] = useState(null); 
+  const [newCard, setNewCard] = useState(null); 
+  const [resultMessage, setResultMessage] = useState("");
 
-// array of cards (per suit)
-let cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+  function handlePlayerChoice(choice) {
+    setCurrentCard(cards[Math.floor(Math.random() * cards.length)]); 
+    setNewCard(cards[Math.floor(Math.random() * cards.length)]); 
+    setCurrentCard(newCard);
 
-const [playerChoice, setPlayerChoice] = useState("null")
-
-function gameRound() {
-
-  let card = cards[Math.floor(Math.random() * cards.length)]
-
-
-  // pick next random card
-  let newCard = cards[Math.floor(Math.random() * cards.length)]
-
-  // if (newCard === card) {
-  //   console.log("It's a tie! try again")
-  // } else
-
-  console.log(newCard)
-
-  if (newCard > card && playerChoice === "higher" || newCard < card && playerChoice === "lower") {
-    console.log("You win!")
-  } else {
-    console.log("You lose!")
+    if (newCard > currentCard && choice === "higher") {
+      setResultMessage("You win!");
+    } else if (newCard < currentCard && choice === "lower") { 
+      setResultMessage("You win!");
+    } else if (newCard === currentCard) {
+      setResultMessage("It's a draw!");
+    } else {
+      setResultMessage("You lose!");
+    } 
   }
 
-}
-
-
   return (
-    <>
-        <h1>Higher or Lower</h1>
-        <button onClick={gameRound}>Play</button>
-        <button onClick={() => { setPlayerChoice("higher")  }}>Higher</button>
-        <button onClick={() => { setPlayerChoice("lower")  }}>Lower</button>
+    <div className="game-container">
+      <h1 className="game-title">Higher or Lower</h1>
+      
+      <h2 className="current-card">Current card: {currentCard}</h2>
 
-    </>
+      <div className="buttons-container">
+        <button className="game-button" onClick={() => handlePlayerChoice("higher")}>Higher</button>
+        <button className="game-button" onClick={() => handlePlayerChoice("lower")}>Lower</button>
+      </div>
+
+      {resultMessage && 
+        <p className={`result-message ${resultMessage === "You lose!" ? 'lose' : 'win'}`}>
+          The new card was {newCard}, {resultMessage}
+        </p>
+      }
+
+      <Link href="/">
+        <p className="home-link">Home</p>
+      </Link>
+    </div>
   );
 }
-
-
-

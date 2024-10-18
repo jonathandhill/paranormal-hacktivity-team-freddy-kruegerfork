@@ -1,0 +1,86 @@
+/* page.css */
+@import url('https://fonts.googleapis.com/css2?family=Creepster&family=Nosifer&display=swap');
+
+/* General Styling */
+body {
+  background-color: #0b0b0b; /* Dark background */
+  color: white;
+  font-family: 'Creepster', cursive; /* Creepy font */
+  margin: 0;
+  padding: 0;
+}
+
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.game-title {
+  font-size: 4rem;
+  color: #ff0000; /* Blood red */
+  text-shadow: 4px 4px 8px black;
+  margin-bottom: 2rem;
+}
+
+.current-card {
+  font-size: 2rem;
+}
+
+.buttons-container {
+  display: flex;
+  gap: 20px;
+}
+
+.game-button {
+  font-size: 2rem;
+  padding: 10px 20px;
+  background-color: #262626;
+  color: white;
+  border: 2px solid #ff0000;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.game-button:hover {
+  background-color: #ff0000;
+  color: black;
+}
+
+.result-message {
+  margin-top: 2rem;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.result-message.win {
+  color: #00ff00;
+}
+
+.result-message.lose {
+  color: red;
+  font-family: 'Nosifer', cursive;
+  text-shadow: 2px 4px 8px black;
+  animation: blood-drip 1.5s infinite;
+}
+
+@keyframes blood-drip {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(5px); }
+  100% { transform: translateY(0); }
+}
+
+.home-link {
+  margin-top: 3rem;
+  font-size: 1.5rem;
+  color: #ff0000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.home-link:hover {
+  color: white;
+}
