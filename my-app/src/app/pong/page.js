@@ -76,20 +76,37 @@ export default function Pong() {
         leftPaddle.vel = 0;
       }
     });
+
+    // const ob1 = {
+    //     x: 1,
+    //     y: 4,
+    //     width: 3,
+    //     height: 3,
+    // }
+    // const ob2 = {
+    //     x: 6,
+    //     y: 7,
+    //     width: 4,
+    //     height: 4,
+    // }
+    // console.log(collision(ob1, ob2));
+
+
      //START GAME, call
-     requestAnimationFrame(gameLoop);
+        requestAnimationFrame(gameLoop);
   }, []);
 
   // define collision function. collision detection algorithm for axis-aligned bounding boxes (AABB)
   // true if the objects are colliding, false otherwise.
   function collision(obj1, obj2) {
-    return (
-      obj1.x < obj2.x + obj2.width && // Checks if the left edge of obj1 is to the left of the right edge of obj2.
-      obj1.x + obj1.width > obj2.x && //Checks if the right edge of obj1 is to the right of the left edge of obj2.
-      obj1.y < obj2.y + obj2.height && //Checks if the top edge of obj1 is above the bottom edge of obj2.
-      obj1.y + obj1.height > obj2.y
-    ); //Checks if the bottom edge of obj1 is below the top edge of obj2.
-  }
+        return (
+            obj1.x < obj2.x + obj2.wid && // Checks if the left edge of obj1 is to the left of the right edge of obj2.
+            obj1.x + obj1.wid > obj2.x && //Checks if the right edge of obj1 is to the right of the left edge of obj2.
+            obj1.y < obj2.y + obj2.hei && //Checks if the top edge of obj1 is above the bottom edge of obj2.
+            obj1.y + obj1.hei > obj2.y //Checks if the bottom edge of obj1 is below the top edge of obj2.
+        )
+    }
+ 
 
   // define game loop
   function gameLoop() {
@@ -160,11 +177,17 @@ export default function Pong() {
         }
         // check if ball collides with paddle
         if (collision(leftPaddle, ball)) {
+            console.log("collision")
             ball.velX *= -1;
 
             // move ball next to paddle
             ball.x = leftPaddle.x + leftPaddle.wid;
         }
+        // else {
+        //     console.log("ball:", ball)
+        //     console.log("bat:", leftPaddle)
+        // }
+        
         // else if () right paddle
 
         //DRAW - ball, walls
