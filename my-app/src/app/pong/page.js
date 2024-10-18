@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './page.css';
 
 export default function Pong() {
@@ -11,6 +11,9 @@ export default function Pong() {
   let leftPaddle;
   let ball;
   let grid;
+  const [leftScore, setLeftScore] = useState(0);
+  const [ballSpeed, setBallSpeed] = useState(3);
+
 
   useEffect(() => {
     // Create canvas
@@ -28,7 +31,7 @@ export default function Pong() {
 
     // hardcode paddle&ball speed
     paddleSpeed = 6;
-    let ballSpeed = 2;
+    // let ballSpeed = 4;
 
     // define left, right (keys: x, y, wid, hei, vel) & ball objects (x, y, velX, velY, reset)
     leftPaddle = {
@@ -167,6 +170,8 @@ export default function Pong() {
         // reset ball if goes past paddle (ball.x < 0 or ball.x > canvas.width) & reset is false
         if ((ball.x < 0 || ball.x > canvas.width) && !ball.reset) {
         ball.reset = true;
+        setLeftScore(0)
+        setBallSpeed(3);
 
         //give players time before start again, ball back to middle
         setTimeout(() => {
@@ -177,12 +182,17 @@ export default function Pong() {
         }
         // check if ball collides with paddle
         if (collision(leftPaddle, ball)) {
-            console.log("collision")
+            setLeftScore((prevScore) => prevScore + 1);
             ball.velX *= -1;
 
             // move ball next to paddle
             ball.x = leftPaddle.x + leftPaddle.wid;
         }
+
+        // Increase ball speed when score reaches 5
+      if (leftScore > 2) {
+        setBallSpeed((prevSpeed) => prevSpeed + 7);
+      }
         // else {
         //     console.log("ball:", ball)
         //     console.log("bat:", leftPaddle)
@@ -202,7 +212,22 @@ export default function Pong() {
     }
 
   return (
-    <div>
+    
+    <div
+        style={{
+          position: 'absolute',
+          top: '16px',
+          left: 0,
+          right: 0,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          color: 'white',
+          fontSize: '2.25rem',
+          fontWeight: 'bold',
+        }}
+      >
+    <span style={{ marginRight: '1rem' }}>{leftScore}</span>
       <canvas width="750" height="585" id="game"></canvas>
     </div>
   );
