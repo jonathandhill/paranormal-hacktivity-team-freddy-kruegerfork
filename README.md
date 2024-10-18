@@ -19,7 +19,7 @@ During this hackathon, we collaborated as a team to build three engaging games t
    - A classic Pong game with a chilling twist! 
 3. **Memory Game**
    - Test your memory with our Halloween-themed memory game. Flip the cards to find matching pairs.
-   - 
+     
 ## Technologies Used
 
 - **React**: For building user interfaces and managing state.
