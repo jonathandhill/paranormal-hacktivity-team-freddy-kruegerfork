@@ -12,7 +12,7 @@ export default function Pong() {
   let ball;
   let grid;
   const [leftScore, setLeftScore] = useState(0);
-  const [ballSpeed, setBallSpeed] = useState(3);
+  const [ballSpeed, setBallSpeed] = useState(4);
 
 
   useEffect(() => {
@@ -138,7 +138,7 @@ export default function Pong() {
         //     rightPaddle.y = maxPadY;
         // }
         // draw paddles (context.fillRect(x, y, width, height))
-        context.fillStyle = 'white';
+        context.fillStyle = 'red';
         context.fillRect(
         leftPaddle.x,
         leftPaddle.y,
@@ -189,10 +189,10 @@ export default function Pong() {
             ball.x = leftPaddle.x + leftPaddle.wid;
         }
 
-        // Increase ball speed when score reaches 5
-      if (leftScore > 2) {
-        setBallSpeed((prevSpeed) => prevSpeed + 7);
-      }
+    //     // Increase ball speed when score reaches 5
+    //   if (leftScore > 2) {
+    //     setBallSpeed((prevSpeed) => prevSpeed + 7);
+    //   }
         // else {
         //     console.log("ball:", ball)
         //     console.log("bat:", leftPaddle)
@@ -202,6 +202,7 @@ export default function Pong() {
 
         //DRAW - ball, walls
         // ball
+        context.fillStyle = 'orange';
         context.fillRect(ball.x, ball.y, ball.wid, ball.hei);
 
         // walls (x, y, width, height)
