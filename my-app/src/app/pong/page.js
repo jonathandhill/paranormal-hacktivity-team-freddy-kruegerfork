@@ -1,50 +1,64 @@
+'use client';
+
 import { useEffect } from 'react';
 import './page.css';
 
 export default function Pong() {
+    let context; 
+    let canvas;
+    let maxPadY;
+    let paddleSpeed;
+    let leftPaddle;
+    let ball;
+    let grid;
+
   useEffect(() => {
         // Create canvas
-        const canvas = document.getElementById('game');
-        const context = canvas.getContext('2d');
+        canvas = document.getElementById('game');
+        context = canvas.getContext('2d');
+
+        //START GAME, call
+        requestAnimationFrame(gameLoop);
+    
+
+        // Define grid, paddleheight, maxPadY
+        grid = 15;
+        const paddleHeight = grid * 5;
+
+        // Lowest Y for paddle:
+        maxPadY = canvas.height - paddleHeight - grid;
+
+        // hardcode paddle&ball speed
+        paddleSpeed = 6;
+        let ballSpeed = 4;
+
+        // define left, right (keys: x, y, wid, hei, vel) & ball objects (x, y, velX, velY, reset)
+        leftPaddle = {
+            x: grid * 2,
+            y: canvas.height / 2 - paddleHeight / 2, // middle
+            wid: grid,
+            hei: paddleHeight,
+            vel: 0,
+        };
+
+        // const rightPaddle = {
+        //     x: canvas.width - grid * 3,
+        //     y: canvas.height / 2 - paddleHeight / 2, // middle
+        //     wid: grid,
+        //     hei: paddleHeight,
+        //     vel: 0,
+        // }
+
+        ball = {
+            x: canvas.width - grid * 3,
+            y: canvas.height / 2 - paddleHeight / 2, // middle
+            wid: grid,
+            hei: grid,
+            velX: ballSpeed,
+            velY: ballSpeed,
+            reset: false,
+        };
     }, []);
-
-  // Define grid, paddleheight, maxPadY
-  const grid = 15;
-  const paddleHeight = grid * 5;
-
-  // Lowest Y for paddle:
-  const maxPadY = canvas.height - paddleHeight - grid;
-
-  // hardcode paddle&ball speed
-  let paddleSpeed = 6;
-  let ballSpeed = 4;
-
-  // define left, right (keys: x, y, wid, hei, vel) & ball objects (x, y, velX, velY, reset)
-  const leftPaddle = {
-    x: grid * 2,
-    y: canvas.height / 2 - paddleHeight / 2, // middle
-    wid: grid,
-    hei: paddleHeight,
-    vel: 0,
-  };
-
-  // const rightPaddle = {
-  //     x: canvas.width - grid * 3,
-  //     y: canvas.height / 2 - paddleHeight / 2, // middle
-  //     wid: grid,
-  //     hei: paddleHeight,
-  //     vel: 0,
-  // }
-
-  const ball = {
-    x: canvas.width - grid * 3,
-    y: canvas.height / 2 - paddleHeight / 2, // middle
-    wid: grid,
-    hei: grid,
-    velX: ballSpeed,
-    velY: ballSpeed,
-    reset: false,
-  };
 
   // define collision function. collision detection algorithm for axis-aligned bounding boxes (AABB)
   // true if the objects are colliding, false otherwise.
@@ -163,8 +177,7 @@ export default function Pong() {
     }
   });
 
-  //START GAME, call
-  requestAnimationFrame(gameLoop);
+  
 
   return (
       <div>
