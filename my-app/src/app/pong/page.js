@@ -27,13 +27,13 @@ export default function Pong() {
         vel: 0,
     }
 
-    const rightPaddle = {
-        x: canvas.width - grid * 3,
-        y: canvas.height / 2 - paddleHeight / 2, // middle
-        wid: grid,
-        hei: paddleHeight,
-        vel: 0,
-    }
+    // const rightPaddle = {
+    //     x: canvas.width - grid * 3,
+    //     y: canvas.height / 2 - paddleHeight / 2, // middle
+    //     wid: grid,
+    //     hei: paddleHeight,
+    //     vel: 0,
+    // }
 
     const ball = {
         x: canvas.width - grid * 3,
@@ -64,7 +64,7 @@ export default function Pong() {
 
         // move paddles by velocity
         leftPaddle.y += leftPaddle.vel;
-        rightPaddle.y += rightPaddle.vel;
+        // rightPaddle.y += rightPaddle.vel;
 
         // prevent paddles going through walls
         // if y val is smaller than grid - move back to grid
@@ -75,39 +75,90 @@ export default function Pong() {
             leftPaddle.y = maxPadY;
         }
 
-        if (rightPaddle.y < grid) {
-            rightPaddle.y = grid;
-        }
-        else if (rightPaddle.y > maxPadY) {
-            rightPaddle.y = maxPadY;
-        }
+        // if (rightPaddle.y < grid) {
+        //     rightPaddle.y = grid;
+        // }
+        // else if (rightPaddle.y > maxPadY) {
+        //     rightPaddle.y = maxPadY;
+        // }
         // draw paddles (context.fillRect(x, y, width, height))
         context.fillStyle = 'white';
-        context.fillRect()
+        context.fillRect(leftPaddle.x, leftPaddle.y, leftPaddle.wid, leftPaddle.hei);
+        // context.fillRect(rightPaddle.x, rightPaddle.y, rightPaddle.wid, rightPaddle.hei);
 
         // move ball by its velocity
+        ball.x += ball.velX;
+        ball.y += ball.velY;
 
         // prevent balls going through wall by changing velocity
+        // TOP WALL with top of ball
+        if (ball.y < grid) {
+            ball.y = grid;
+            ball.velY *= -1; //rebound 90 degree
+        }
+        // BOTTOM WALL with bottom of ball (ball.y + grid)
+        else if (ball.y + grid > canvas.height - grid) {
+            ball.y = canvas.height - grid * 2;
+            ball.velY *= -1; 
+        } // RIGHT WALL with right of ball (ball.x + grid)
+        else if (ball.x + grid > canvas.width - grid) {
+            ball.x = canvas.width - grid * 2;
+            ball.velX *= -1;
+        }
 
-        // reset ball if goes past paddle & reset is false
-            //give players time before start again
-
-
+        // reset ball if goes past paddle (ball.x < 0 or ball.x > canvas.width) & reset is false
+        if ( (ball.x < 0 || ball.x > canvas.width) && !ball.reset ) {
+            ball.reset = true;
+        
+            //give players time before start again, ball back to middle
+            setTimeout(() => {
+                ball.reset = false;
+                ball.x = canvas.width / 2;
+                ball.y = canvas.height /2;
+            }, 400);
+        }
         // check if ball collides with paddle
+        if (collision(leftPaddle, ball)) {
+            ball.velX *= -1;
 
-        //DRAW - ball, walls, middle line
+            // move ball next to paddle
+            ball.x = leftPaddle.x + leftPaddle.wid
+        }
+        // else if () right paddle
+
+        //DRAW - ball, walls
+        // ball
+        context.fillRect(ball.x, ball.y, ball.wid, ball.hei);
+
+        // walls (x, y, width, height)
+        context.fillStyle = 'lightgrey';
+        context.fillRect(0, 0, canvas.width, grid);
+        context.fillRect(0, canvas.height - grid, canvas.width, canvas.height);
+        context.fillRect(canvas.width - grid, 0, grid, canvas.height); //right wall
     }
     //listen to keyboard events
-    // 4 keys
+    // 2 keys
+    document.addEventListener('keydown', function(e) {
+
+        // up arrow key
+        if (e.which === 38) {
+          leftPaddle.dy = -paddleSpeed;
+        }
+        // down arrow key
+        else if (e.which === 40) {
+          leftPaddle.dy = paddleSpeed;
+        }
+      });
 
     // listen for keys being released: stop
+    document.addEventListener('keyup', function(e) {
+        if (e.which === 38 || e.which === 40) {
+          leftPaddle.dy = 0;
+        }
+      });
 
     //START GAME, call 
     requestAnimationFrame(gameLoop);
-
-
-
-
 
     return (
         <>
