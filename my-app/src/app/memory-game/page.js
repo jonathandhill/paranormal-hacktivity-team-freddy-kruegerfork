@@ -5,9 +5,33 @@ import "./memory-game.css"
 
 export default function MemoryGame() {
     let cardsArray = ["👹", "👹", "🎃", "🎃", "👻", "👻", "💀", "💀", "👽", "👽", "🦴", "🦴", "👺", "👺", "👿", "👿"]; 
+    let score = 0;
     
     // 
     const [cards, setCards] = useState([]);
+    const [flippedCards, setFlippedCards] = useState([]);
+    const [matchedCards, setMatchedCards] = useState([]);
+
+    // function increaseScore() {
+        
+    // }
+
+    function checkCards() {
+        const [first, second] = flippedCards;
+        if (cards[first] === cards[second]) {
+            setMatchedCards([...matchedCards, first, second])
+            setScore(score + 1);
+        }
+        setFlippedCards([])
+
+    }
+
+    function handleClick(index) {
+        if (flippedCards.length === 2 || matchedCards.includes(index) || flippedCards.includes(index)) {
+            return;
+        }
+
+    }
 
     useEffect(() => {
         //used range of -0.5 and 0.5 to set off array when sorting to randomising
@@ -18,11 +42,15 @@ export default function MemoryGame() {
     return (
         <div>
             <h1>Memory Game</h1>
+            <h2>Score: {score}</h2>
             <div className="cards">
                 {cards.map((card, index) => (
                     //assigns unique key to each div, based on index
-                    <div key={index}>
-                        {card}
+                    <div key={index}
+                    className={`card ${flippedCards.includes(index) || matchedCards.includes(index) ? 'flipped' : ''}`} 
+                    onClick={() => handleClick(index)}
+                    >
+                        {flippedCards.includes(index) || matchedCards.includes(index) ? card : "Choose a Card"}
                     </div>
                 ))}
             </div>
